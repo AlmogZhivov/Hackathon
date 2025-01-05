@@ -56,7 +56,7 @@ def udp_server(server_port):
         print(f"\033[94m[UDP]\033[0m Server listening on port {server_port}")
 
         while True:
-            data, addr = udp_socket.recvfrom(1024)
+            data, addr = udp_socket.recvfrom(2048)
             try:
                 magic_cookie, message_type, file_size = struct.unpack('!IBQ', data)
                 if magic_cookie != 0xabcddcba or message_type != 0x3:
