@@ -68,7 +68,7 @@ def tcp_transfer(server_ip, tcp_port, file_size, connection_id):
 def udp_transfer(server_ip, udp_port, file_size, connection_id):
     """Perform a file transfer over UDP."""
     start_time = time.time()
-    total_segments = file_size // 1024
+    total_segments = file_size // 1024 + 1
     received_segments = set()
 
     try:
