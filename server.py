@@ -45,15 +45,14 @@ def tcp_server(server_port, stop_event):
         print(f"\033[94m[TCP]\033[0m Server listening on port {server_port}")
 
         while not stop_event.is_set():
-            # Using select() to avoid blocking the accept call and check stop_event
-            tcp_socket.settimeout(1.0)  # Timeout to check the stop_event periodically
+            tcp_socket.settimeout(1.0)
             try:
                 client_socket, addr = tcp_socket.accept()
                 file_size = client_socket.recv(1024).decode().strip()
                 print(f"\033[92m[TCP]\033[0m Received request from {addr}, file size: {file_size} bytes")
                 threading.Thread(target=handle_tcp_client, args=(client_socket, file_size), daemon=True).start()
             except socket.timeout:
-                pass  # This exception is expected during the timeout, continue looping and check the stop_event
+                pass # Exception is expected, continue looping
 
 def udp_server(server_port, stop_event):
     """UDP server to handle incoming requests."""
@@ -62,8 +61,7 @@ def udp_server(server_port, stop_event):
         print(f"\033[94m[UDP]\033[0m Server listening on port {server_port}")
 
         while not stop_event.is_set():
-            # Using select() to avoid blocking the recvfrom call and check stop_event
-            udp_socket.settimeout(1.0)  # Timeout to check the stop_event periodically
+            udp_socket.settimeout(1.0) 
             try:
                 data, addr = udp_socket.recvfrom(2048)
                 try:
@@ -77,7 +75,7 @@ def udp_server(server_port, stop_event):
                 except Exception as e:
                     print(f"\033[91m[UDP]\033[0m Error processing request: {e}")
             except socket.timeout:
-                pass  # This exception is expected during the timeout, continue looping and check the stop_event
+                pass  # Exception is expected, continue looping
 
 def start_server():
     """Start the server and its components."""
